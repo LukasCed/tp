@@ -53,6 +53,11 @@
                             <p:inputText id="courseName" value="#{requestUseCaseControllerJPA.course.name}"/>
                             <p:message for="courseName"/>
                         </h:panelGrid>
+                        <h:panelGrid columns="3">
+                            <p:outputLabel for="universityName" value="University name"/>
+                            <p:inputText id="universityName" value="#{requestUseCaseControllerJPA.university.title}"/>
+                            <p:message for="universityName"/>
+                        </h:panelGrid>
                     </td>
                 </tr>
             </table>

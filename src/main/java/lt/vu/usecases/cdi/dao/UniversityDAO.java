@@ -19,4 +19,13 @@ public class UniversityDAO {
     public List<University> getAllUniversities() {
         return em.createNamedQuery("University.findAll", University.class).getResultList();
     }
+
+    public University findByTitle(String title) {
+        try {
+            return em.createNamedQuery("University.findByTitle", University.class).setParameter("title", title).getSingleResult();
+        }
+        catch (Exception ex) {
+            return null;
+        }
+    }
 }

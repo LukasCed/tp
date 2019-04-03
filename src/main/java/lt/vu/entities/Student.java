@@ -62,7 +62,7 @@ public class Student implements Serializable {
     private List<Course> courseList = new ArrayList<>();
 
     @JoinColumn(name = "UNIVERSITY_ID", referencedColumnName = "ID")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JohnzonIgnore
     private University university;
 

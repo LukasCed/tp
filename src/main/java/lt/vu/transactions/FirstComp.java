@@ -3,16 +3,17 @@ package lt.vu.transactions;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.Date;
 
 @Named
-@RequestScoped
-public class FirstComp {
+@SessionScoped
+public class FirstComp implements Serializable {
     @Resource
     private TransactionSynchronizationRegistry tx;
 
@@ -33,8 +34,9 @@ public class FirstComp {
 
     @Transactional(Transactional.TxType.REQUIRED)
     public String sayHello() {
-        return toString() + " | " + new Date() + " | " + " Tx: " + tx.getTransactionKey() +
-                " | Second component: " + secondComp.sayHello();
+        return toString() + " | " + new Date() + " | " + " Tx1: " + tx.getTransactionKey() +
+                " | Second component: " + secondComp.sayHello() + "| Second component name:" +
+                secondComp.getClass().getName();
     }
 
 }

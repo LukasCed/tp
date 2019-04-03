@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import lt.vu.entities.Course;
 import lt.vu.entities.Student;
+import lt.vu.entities.University;
 import lt.vu.usecases.cdi.dao.CourseDAO;
 import lt.vu.usecases.cdi.dao.StudentDAO;
+import lt.vu.usecases.cdi.dao.UniversityDAO;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -20,6 +22,8 @@ public class RequestUseCaseControllerJPA {
     @Getter
     private Course course = new Course();
     @Getter
+    private University university = new University();
+    @Getter
     private Student student = new Student();
     @Getter
     private List<Student> allStudents;
@@ -33,10 +37,16 @@ public class RequestUseCaseControllerJPA {
     private CourseDAO courseDAO;
     @Inject
     private StudentDAO studentDAO;
+    @Inject
+    private UniversityDAO universityDAO;
+
 
     @Transactional
     public void createCourseStudent() {
+        University existing = universityDAO.findByTitle(university.getTitle());
+        university = existing == null ? university : existing;
         student.getCourseList().add(course);
+        student.setUniversity(university);
         course.getStudentList().add(student);
         courseDAO.create(course);
         studentDAO.create(student);

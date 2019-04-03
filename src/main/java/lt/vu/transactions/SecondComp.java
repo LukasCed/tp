@@ -24,10 +24,10 @@ public class SecondComp {
 
     //---------------------------------
 
-    //@Transactional(Transactional.TxType.REQUIRES_NEW)
+//    @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Transactional(Transactional.TxType.REQUIRED)
     public String sayHello() {
-        return toString() + " Tx: " + tx.getTransactionKey();
+        return "Hello from second comp " + toString() + " Tx2: " + tx.getTransactionKey();
     }
 
 }
