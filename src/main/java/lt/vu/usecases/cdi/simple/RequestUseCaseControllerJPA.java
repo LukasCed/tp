@@ -2,12 +2,12 @@ package lt.vu.usecases.cdi.simple;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import lt.vu.entities.Course;
-import lt.vu.entities.Student;
-import lt.vu.entities.University;
-import lt.vu.usecases.cdi.dao.CourseDAO;
-import lt.vu.usecases.cdi.dao.StudentDAO;
-import lt.vu.usecases.cdi.dao.UniversityDAO;
+import lt.vu.entities.Order;
+import lt.vu.entities.Product;
+import lt.vu.entities.ProductCategory;
+import lt.vu.usecases.cdi.dao.OrderDao;
+import lt.vu.usecases.cdi.dao.ProductCategoryDao;
+import lt.vu.usecases.cdi.dao.ProductDao;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -20,40 +20,40 @@ import java.util.List;
 public class RequestUseCaseControllerJPA {
 
     @Getter
-    private Course course = new Course();
+    private Order order = new Order();
     @Getter
-    private University university = new University();
+    private ProductCategory productCategory = new ProductCategory();
     @Getter
-    private Student student = new Student();
+    private Product product = new Product();
     @Getter
-    private List<Student> allStudents;
+    private List<Product> allProducts;
 
     @PostConstruct
     public void init() {
-        loadAllStudents();
+        loadAllProducts();
     }
 
     @Inject
-    private CourseDAO courseDAO;
+    private ProductCategoryDao productCategoryDao;
     @Inject
-    private StudentDAO studentDAO;
+    private ProductDao productDao;
     @Inject
-    private UniversityDAO universityDAO;
+    private OrderDao orderDao;
 
 
     @Transactional
     public void createCourseStudent() {
-        University existing = universityDAO.findByTitle(university.getTitle());
-        university = existing == null ? university : existing;
-        student.getCourseList().add(course);
-        student.setUniversity(university);
-        course.getStudentList().add(student);
-        courseDAO.create(course);
-        studentDAO.create(student);
-        log.info("Maybe OK...");
+//        ProductCategory existing = orderDao.findByTitle(productCategory.getTitle());
+//        productCategory = existing == null ? productCategory : existing;
+//        product.getOrderList().add(order);
+//        product.setProductCategory(productCategory);
+//        order.getProductList().add(product);
+//        productCategoryDao.create(order);
+//        productDao.create(product);
+//        log.info("Maybe OK...");
     }
 
-    private void loadAllStudents() {
-        allStudents = studentDAO.getAllStudents();
+    private void loadAllProducts() {
+        allProducts = productDao.getAllProducts();
     }
 }

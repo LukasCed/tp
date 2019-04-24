@@ -5,10 +5,8 @@
  */
 package lt.vu.entities;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -17,17 +15,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "ACCOUNT")
+@Table
 @Getter
 @Setter
-@EqualsAndHashCode(of = "userName")
-@ToString(of = {"id", "userName", "firstName", "lastName"})
-public class Account implements Serializable {
+public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column
     private Integer id;
 
     @Size(min = 3, max = 128)
@@ -43,9 +39,7 @@ public class Account implements Serializable {
     @Column(name = "LAST_NAME")
     private String lastName;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="ACCOUNT_GROUP", joinColumns=@JoinColumn(name="ACCOUNT_ID"))
-    @Column(name = "GROUP_NAME")
-    private Set<String> groups = new HashSet<>();
+    @OneToMany(mappedBy = "customer")
+    private Set<Order> orders = new HashSet<>();
 
 }

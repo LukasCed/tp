@@ -1,6 +1,7 @@
 package lt.vu.usecases.cdi.dao;
 
-import lt.vu.entities.Account;
+
+import lt.vu.entities.Customer;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Repository;
 
@@ -17,8 +18,7 @@ import org.apache.deltaspike.data.api.Repository;
 
  */
 @Repository
-public interface AccountDAO extends EntityRepository<Account, Integer> {
+public interface CustomerDao extends EntityRepository<Customer, Integer> {
 
-    Account findByUserName(String userName);
-
+    Customer findByUserName(String userName);
 }
