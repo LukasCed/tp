@@ -30,7 +30,7 @@ public class ProductDao {
 
     public Product findByName(String name) {
         try {
-            return em.createNamedQuery("Product.findByFirstName", Product.class).setParameter("firstName", name).getSingleResult();
+            return em.createNamedQuery("Product.findByName", Product.class).setParameter("name", name).getSingleResult();
         } catch (Exception ex) {
             return null;
         }

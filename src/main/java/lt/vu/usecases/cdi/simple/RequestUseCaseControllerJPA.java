@@ -2,6 +2,7 @@ package lt.vu.usecases.cdi.simple;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import lt.vu.entities.Customer;
 import lt.vu.entities.Order;
 import lt.vu.entities.Product;
 import lt.vu.entities.ProductCategory;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Model // tas pats kaip: @Named ir @RequestScoped
@@ -22,14 +24,19 @@ public class RequestUseCaseControllerJPA {
     @Getter
     private Order order = new Order();
     @Getter
+    private Customer customer = new Customer();
+    @Getter
     private ProductCategory productCategory = new ProductCategory();
     @Getter
     private Product product = new Product();
+    @Getter
+    private List<Order> allOrders;
     @Getter
     private List<Product> allProducts;
 
     @PostConstruct
     public void init() {
+        loadAllOrders();
         loadAllProducts();
     }
 
@@ -42,15 +49,34 @@ public class RequestUseCaseControllerJPA {
 
 
     @Transactional
-    public void createCourseStudent() {
-//        ProductCategory existing = orderDao.findByTitle(productCategory.getTitle());
-//        productCategory = existing == null ? productCategory : existing;
-//        product.getOrderList().add(order);
-//        product.setProductCategory(productCategory);
-//        order.getProductList().add(product);
-//        productCategoryDao.create(order);
-//        productDao.create(product);
-//        log.info("Maybe OK...");
+    public void createOrder() {
+        Product existingProduct = productDao.findByName(product.getName());
+        productCategory = existingProduct == null ? productCategory : existingProduct.getProductCategory();
+        List<ProductCategory> productCategories = new ArrayList<>();
+        productCategories.add(productCategory);
+        order.setProductCategoryList(productCategories);
+
+        orderDao.create(order);
+        productCategoryDao.create(productCategory);
+        productDao.create(product);
+
+        log.info("Maybe OK...");
+    }
+
+    @Transactional
+    public void createProduct() {
+        Product existingProduct = productDao.findByName(product.getName());
+        productCategory = existingProduct == null ? productCategory : existingProduct.getProductCategory();
+
+        product.setProductCategory(productCategory);
+        productDao.create(product);
+
+        log.info("Maybe OK...");
+    }
+
+
+    private void loadAllOrders() {
+        allOrders = orderDao.getAllOrders();
     }
 
     private void loadAllProducts() {

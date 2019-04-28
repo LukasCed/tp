@@ -16,8 +16,8 @@ public class OrderDao {
         em.persist(order);
     }
 
-    public List<Order> getAllORders() {
-        return em.createNamedQuery("OrderDao.findAll", Order.class).getResultList();
+    public List<Order> getAllOrders() {
+        return em.createNamedQuery("Order.findAll", Order.class).getResultList();
     }
 
 }

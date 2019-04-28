@@ -19,13 +19,4 @@ public class ProductCategoryDao {
     public List<ProductCategory> getAllProductCategories() {
         return em.createNamedQuery("ProductCategory.findAll", ProductCategory.class).getResultList();
     }
-
-    public ProductCategory findByTitle(String title) {
-        try {
-            return em.createNamedQuery("ProductCategory.findByTitle", ProductCategory.class).setParameter("title", title).getSingleResult();
-        }
-        catch (Exception ex) {
-            return null;
-        }
-    }
 }

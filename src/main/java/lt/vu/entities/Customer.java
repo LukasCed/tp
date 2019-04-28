@@ -11,8 +11,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -27,19 +27,22 @@ public class Customer implements Serializable {
     private Integer id;
 
     @Size(min = 3, max = 128)
-    @Column(name = "USER_NAME")
+    @Column
     private String userName;
 
-    @Column(name = "PASSWORD_DIGEST")
+    @Column
     private String passwordDigest;
 
-    @Column(name = "FIRST_NAME")
+    @Column
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column
     private String lastName;
 
+    @Column
+    private String address;
+
     @OneToMany(mappedBy = "customer")
-    private Set<Order> orders = new HashSet<>();
+    private List<Order> orders = new ArrayList<>();
 
 }

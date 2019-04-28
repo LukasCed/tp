@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+    <h:head>
+        <h:outputStylesheet name="css/styles.css" />
+        <title>Request type usecase (DAO with JPA) </title>
+    </h:head>
+
+    <h:body>
+        <h1>Request type usecase example (DAO with JPA)</h1>
+        <h:form>
+            <p:fieldset legend="All products" toggleable="true" style="width: 50%">
+                <p:dataTable value="#{requestUseCaseControllerJPA.allProducts}" var="product">
+                    <p:column headerText="Product ID">
+                        <h:outputText value="#{product.id}" />
+                    </p:column>
+                    <p:column headerText="Product category name">
+                        <h:outputText value="#{product.productCategory.name}" />
+                    </p:column>
+                    <p:column headerText="Product name">
+                        <h:outputText value="#{product.name}" />
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+            <h2>CREATE A PRODUCT WITH CATEGORY</h2>
+            <table>
+                <tr>
+                    <td>
+                        <h:panelGrid columns="3">
+                            <p:outputLabel for="ProductCategory" value="Product category"/>
+                            <p:inputText id="ProductCategory" value="#{requestUseCaseControllerJPA.productCategory.name}"/>
+                            <p:message for="ProductCategory"/>
+                        </h:panelGrid>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:panelGrid columns="3">
+                            <p:outputLabel for="ProductName2" value="Product name"/>
+                            <p:inputText id="ProductName2" value="#{requestUseCaseControllerJPA.product.name}"/>
+                            <p:message for="ProductName2"/>
+                        </h:panelGrid>
+                    </td>
+                </tr>
+            </table>
+
+            <p:commandButton value="Create product"
+                             actionListener="#{requestUseCaseControllerJPA.createProduct()}"
+                             action="simple-usecase-jpa-createproduct?faces-redirect=true"
+                             ajax="false"/>
+
+            <p:messages globalOnly="true"/>
+        </h:form>
+
+    </h:body>
+</html>
+

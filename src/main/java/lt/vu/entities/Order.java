@@ -7,12 +7,19 @@ package lt.vu.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ORDERS")
+@NamedQueries({
+        @NamedQuery(name = "Order.findAll", query = "SELECT s FROM Order s")
+})
 @Getter
 @Setter
 public class Order implements Serializable {
@@ -23,10 +30,17 @@ public class Order implements Serializable {
     @Column
     private Integer id;
 
+    @Column
+    @CreationTimestamp
+    private Timestamp date;
+
+    @Column
+    private String comment;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-//
-//    @ManyToMany
-//    private List<ProductCategory> productCategoryList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "orderList")
+    private List<ProductCategory> productCategoryList = new ArrayList<>();
 }

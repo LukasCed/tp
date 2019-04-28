@@ -7,33 +7,58 @@
 >
     <h:head>
         <h:outputStylesheet name="css/styles.css" />
-        <title>Request type usecase (DAO with JPA) 1</title>
+        <title>Request type usecase (DAO with JPA) </title>
     </h:head>
 
     <h:body>
         <h1>Request type usecase example (DAO with JPA)</h1>
         <h:form>
-            <p:fieldset legend="All products" toggleable="true" style="width: 50%">
-                <p:dataTable value="#{requestUseCaseControllerJPA.allProducts}" var="products">
-                    <p:column headerText="Product">
-                        <h:outputText value="#{product.name}" />
+            <p:fieldset legend="All orders" toggleable="true" style="width: 50%">
+                <p:dataTable value="#{requestUseCaseControllerJPA.allOrders}" var="order">
+                    <p:column headerText="Order ID">
+                        <h:outputText value="#{order.id}" />
                     </p:column>
-                    <!--<p:column headerText="Courses">-->
-                        <!--<ui:repeat var="course" value="#{product.orderList}">-->
-                            <!--<h:outputText value="#{course.name} " />-->
-                        <!--</ui:repeat>-->
-                    <!--</p:column>-->
-                    <!--<p:column headerText="University">-->
-                        <!--<h:outputText value="#{student.productCategory.title} " />-->
-                    <!--</p:column>-->
+                    <p:column headerText="Customer First Name">
+                        <h:outputText value="#{order.customer.firstName}" />
+                    </p:column>
+                    <p:column headerText="Customer Last Name">
+                        <h:outputText value="#{order.customer.lastName}" />
+                    </p:column>
+                    <p:column headerText="Product categories">
+                        <ui:repeat var="category" value="#{order.productCategoryList}">
+                            <h:outputText value="#{category.name} " />
+                        </ui:repeat>
+                    </p:column>
+                    <p:column headerText="Products">
+                        <ui:repeat var="category" value="#{order.productCategoryList}">
+                            <ui:repeat var="product" value="#{category.productList}">
+                                <h:outputText value="#{product.name} " />
+                            </ui:repeat>
+                        </ui:repeat>
+                    </p:column>
                 </p:dataTable>
             </p:fieldset>
 
-            <h2>Create new course and student</h2>
+            <h2>ADMIN CAN CREATE ORDERS HERE</h2>
+            <table>
+                <tr>
+                    <td>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="Username" value="Username"/>
+                            <p:inputText id="Username" value="#{requestUseCaseControllerJPA.customer.userName}"/>
+                            <p:message for="Username"/>
+
+                            <p:outputLabel for="ProductName" value="Product name"/>
+                            <p:inputText id="ProductName" value="#{requestUseCaseControllerJPA.product.name}"/>
+                            <p:message for="ProductName"/>
+                        </h:panelGrid>
+                    </td>
+                </tr>
+            </table>
 
 
-            <p:commandButton value="Create student and course"
-                             actionListener="#{requestUseCaseControllerJPA.createCourseStudent()}"
+            <p:commandButton value="Create order"
+                             actionListener="#{requestUseCaseControllerJPA.createOrder()}"
                              action="simple-usecase-jpa?faces-redirect=true"
                              ajax="false"/>
 
