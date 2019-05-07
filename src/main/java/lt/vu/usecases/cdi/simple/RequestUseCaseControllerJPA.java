@@ -6,6 +6,7 @@ import lt.vu.entities.Customer;
 import lt.vu.entities.Order;
 import lt.vu.entities.Product;
 import lt.vu.entities.ProductCategory;
+import lt.vu.usecases.cdi.dao.CustomerDao;
 import lt.vu.usecases.cdi.dao.OrderDao;
 import lt.vu.usecases.cdi.dao.ProductCategoryDao;
 import lt.vu.usecases.cdi.dao.ProductDao;
@@ -46,6 +47,8 @@ public class RequestUseCaseControllerJPA {
     private ProductDao productDao;
     @Inject
     private OrderDao orderDao;
+    @Inject
+    private CustomerDao customerDao;
 
 
     @Transactional
@@ -55,10 +58,15 @@ public class RequestUseCaseControllerJPA {
         List<ProductCategory> productCategories = new ArrayList<>();
         productCategories.add(productCategory);
         order.setProductCategoryList(productCategories);
+        Customer customer = customerDao.findByUserName(this.customer.getUserName());
+        order.setCustomer(customer);
+
+        if (existingProduct == null) {
+            productDao.create(product);
+            productCategoryDao.create(productCategory);
+        }
 
         orderDao.create(order);
-        productCategoryDao.create(productCategory);
-        productDao.create(product);
 
         log.info("Maybe OK...");
     }

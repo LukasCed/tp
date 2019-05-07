@@ -43,11 +43,16 @@
             <table>
                 <tr>
                     <td>
-                        <h:panelGrid columns="2">
+                    <h:panelGrid columns="2">
                             <p:outputLabel for="Username" value="Username"/>
                             <p:inputText id="Username" value="#{requestUseCaseControllerJPA.customer.userName}"/>
                             <p:message for="Username"/>
-
+                    </h:panelGrid>
+                    </td>
+                 </tr>
+                <tr>
+                    <td>
+                        <h:panelGrid columns="2">
                             <p:outputLabel for="ProductName" value="Product name"/>
                             <p:inputText id="ProductName" value="#{requestUseCaseControllerJPA.product.name}"/>
                             <p:message for="ProductName"/>

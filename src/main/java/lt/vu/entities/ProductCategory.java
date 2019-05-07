@@ -36,6 +36,6 @@ public class ProductCategory implements Serializable {
     @OneToMany(mappedBy = "productCategory")
     private List<Product> productList = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "productCategoryList")
     private List<Order> orderList = new ArrayList<>();
 }

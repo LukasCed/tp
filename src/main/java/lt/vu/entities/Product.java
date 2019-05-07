@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Table
 @NamedQueries({
     @NamedQuery(name = "Product.findAll", query = "SELECT s FROM Product s"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT s FROM Product s WHERE s.name = :name"),
+    @NamedQuery(name = "Product.findByName", query = "SELECT s FROM Product s WHERE s.name LIKE :name"),
 //    @NamedQuery(name = "Student.findByFirstName", query = "SELECT s FROM Student s WHERE s.firstName LIKE :firstName"),
 //    @NamedQuery(name = "Student.findByLastName", query = "SELECT s FROM Student s WHERE s.lastName LIKE :lastName"),
 //    @NamedQuery(name = "Student.findByRegistrationNo", query = "SELECT s FROM Student s WHERE s.registrationNo = :registrationNo")

@@ -41,6 +41,6 @@ public class Order implements Serializable {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToMany(mappedBy = "orderList")
+    @ManyToMany
     private List<ProductCategory> productCategoryList = new ArrayList<>();
 }
