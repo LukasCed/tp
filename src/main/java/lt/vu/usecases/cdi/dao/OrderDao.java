@@ -16,6 +16,16 @@ public class OrderDao {
         em.persist(order);
     }
 
+    public void updateAndFlush(Order order) {
+        em.merge(order);
+        em.flush();
+    }
+
+    public Order findById(Integer id) {
+        return em.find(Order.class, id);
+    }
+
+
     public List<Order> getAllOrders() {
         return em.createNamedQuery("Order.findAll", Order.class).getResultList();
     }

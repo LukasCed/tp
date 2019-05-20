@@ -37,6 +37,10 @@ public class Order implements Serializable {
     @Column
     private String comment;
 
+    @Version
+    @Column
+    private Integer optLockVersion;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;

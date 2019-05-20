@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+    <h:head>
+        <h:outputStylesheet name="css/styles.css"/>
+        <title>Edit Order with Optimistic Locking</title>
+    </h:head>
+
+<h:body>
+    <h1>Edit Order with Optimistic Locking</h1>
+
+    <h:form id="form">
+        <p:fieldset id="list" style="width: 50%">
+            <f:facet name="legend">
+                All orders
+                <p:commandButton value="Refresh" icon="ui-icon-arrowrefresh-1-e"
+                                 actionListener="#{editOrderUseCaseController.reloadAll}"
+                                 update=":form:list"/>
+            </f:facet>
+
+            <p:dataTable value="#{editOrderUseCaseController.allOrders}" var="order" tableStyle="table-layout: auto">
+                <p:column headerText="Order ID">
+                    <h:outputText value="#{order.id}" />
+                </p:column>
+                <p:column headerText="Customer username">
+                    <h:outputText value="#{order.customer.userName}" />
+                </p:column>
+                <p:column headerText="Product categories">
+                    <ui:repeat var="category" value="#{order.productCategoryList}">
+                        <h:outputText value="#{category.name} " />
+                    </ui:repeat>
+                </p:column>
+                <p:column headerText="Products">
+                    <ui:repeat var="category" value="#{order.productCategoryList}">
+                        <ui:repeat var="product" value="#{category.productList}">
+                            <h:outputText value="#{product.name} " />
+                        </ui:repeat>
+                    </ui:repeat>
+                </p:column>
+                <p:column headerText="Comments">
+                    <h:outputText value="#{order.comment}" />
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Edit" icon="ui-icon-pencil"
+                                     actionListener="#{editOrderUseCaseController.prepareForEditing(order)}"
+                                     update=":form:orderDetail"
+                                     oncomplete="PF('orderDialog').show()" />
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+
+        <p:dialog header="Edit Order" widgetVar="orderDialog" modal="true" closable="true" resizable="false" closeOnEscape="true">
+            <p:outputPanel id="orderDetail">
+                <h:outputText value="No order was selected... Weird..." rendered="#{empty editOrderUseCaseController.selectedOrder}" />
+                <p:panelGrid  columns="3" rendered="#{not empty editOrderUseCaseController.selectedOrder}"
+                              columnClasses="label,value" styleClass="ui-noborder">
+                    <p:outputLabel for="userName" value="Username:"/>
+                    <p:inputText id="userName" value="#{editOrderUseCaseController.selectedOrder.customer.userName}"/>
+                    <p:message for="userName"/>
+
+                    <p:outputLabel for="Comment" value="Comment:"/>
+                    <p:inputText id="Comment" value="#{editOrderUseCaseController.selectedOrder.comment}"/>
+                    <p:message for="Comment"/>
+
+
+                    <h:outputText value="Opt. version:" />
+                    <h:outputText value="#{editOrderUseCaseController.selectedOrder.optLockVersion}" style="font-weight: bold"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Update" actionListener="#{editOrderUseCaseController.updateSelectedOrder}"
+                                 rendered="#{empty editOrderUseCaseController.conflictingOrder}"
+                                 icon="ui-icon-check" style="margin-top: 1em"
+                                 update=":form:orderDetail :form:list"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed) PF('orderDialog').hide()" />
+
+                <p:panelGrid  columns="2" rendered="#{not empty editOrderUseCaseController.conflictingOrder}"
+                              columnClasses="label,value" styleClass="ui-noborder" style="margin-top: 1em">
+                    <f:facet name="header">Conflicting order</f:facet>
+
+                    <h:outputText value="Username:"/>
+                    <h:outputText value="#{editOrderUseCaseController.conflictingOrder.customer.userName}"/>
+
+                    <h:outputText value="Comment:"/>
+                    <h:outputText value="#{editOrderUseCaseController.conflictingOrder.comment}" />
+
+                    <h:outputText value="Opt. version:" />
+                    <h:outputText value="#{editOrderUseCaseController.conflictingOrder.optLockVersion}" style="font-weight: bold"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Overwrite" actionListener="#{editOrderUseCaseController.overwriteOrder}"
+                                 rendered="#{not empty editOrderUseCaseController.conflictingOrder}"
+                                 icon="ui-icon-notice" style="margin-top: 1em"
+                                 update=":form:orderDetail :form:list"
+                                 oncomplete="if (args &amp;&amp; !args.validationFailed) PF('orderDialog').hide()" />
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:messages globalOnly="true"/>
+    </h:form>
+
+</h:body>
+</html>
+

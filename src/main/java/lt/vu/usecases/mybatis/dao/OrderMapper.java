@@ -1,5 +1,7 @@
 package lt.vu.usecases.mybatis.dao;
 
+import lt.vu.usecases.mybatis.model.Order;
+
 import java.util.List;
 
 public interface OrderMapper {

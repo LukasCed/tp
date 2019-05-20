@@ -1,5 +1,7 @@
 package lt.vu.usecases.mybatis.dao;
 
+import lt.vu.usecases.mybatis.model.ProductCategory;
+
 import java.util.List;
 
 public interface ProductCategoryMapper {
