@@ -5,6 +5,7 @@
  */
 package lt.vu.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,9 +43,14 @@ public class Order implements Serializable {
     private Integer optLockVersion;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @ManyToMany
+    @JsonIgnore
     private List<ProductCategory> productCategoryList = new ArrayList<>();
+
+    @Column
+    private int amount;
 }

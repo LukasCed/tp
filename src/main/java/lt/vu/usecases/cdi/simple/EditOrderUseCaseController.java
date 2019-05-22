@@ -59,7 +59,7 @@ public class EditOrderUseCaseController implements Serializable {
         }
     }
 
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public void overwriteOrder() {
         selectedOrder.setOptLockVersion(conflictingOrder.getOptLockVersion());
         updateSelectedOrder();

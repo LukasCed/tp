@@ -2,11 +2,18 @@
 <beans
         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
         bean-discovery-mode="annotated">
 
     <alternatives>
-        <class>org.apache.deltaspike.jpa.impl.transaction.ContainerManagedTransactionStrategy</class>
+        <class>lt.vu.usecases.async.CompC</class>
+        <class>lt.vu.usecases.async.MockComp</class>
     </alternatives>
+    <interceptors>
+        <class>lt.vu.usecases.interceptor.LoggerInterceptor</class>
+    </interceptors>
+    <decorators>
+        <class>lt.vu.usecases.decorator.LargeTransactionDecorator</class>
+    </decorators>
 </beans>

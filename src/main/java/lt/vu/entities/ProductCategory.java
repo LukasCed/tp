@@ -5,6 +5,7 @@
  */
 package lt.vu.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,9 +34,11 @@ public class ProductCategory implements Serializable {
     @Column(name = "NAME")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "productCategory")
     private List<Product> productList = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "productCategoryList")
     private List<Order> orderList = new ArrayList<>();
 }

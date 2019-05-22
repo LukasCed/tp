@@ -1,5 +1,6 @@
 package lt.vu.usecases.cdi;
 
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
@@ -28,6 +29,11 @@ public class JPAResources {
 
     private void closeResqueEntityManager(@Disposes @RescueOrAsync EntityManager em) {
         em.close();
+    }
+
+    @PreDestroy
+    private void nznKasIvyks() {
+        System.out.println("fgffd");
     }
 
 }
